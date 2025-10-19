@@ -1,90 +1,112 @@
 package com.ooadassignment.bankingsystemtest.controller;
 
-import com.ooadassignment.bankingsystemtest.dao.UserDAO;
-import com.ooadassignment.bankingsystemtest.model.User;
+import com.ooadassignment.bankingsystemtest.dao.SavingsDAO;
+import com.ooadassignment.bankingsystemtest.dao.InvestmentDAO;
+import com.ooadassignment.bankingsystemtest.model.Savings;
+import com.ooadassignment.bankingsystemtest.model.Investment;
 import com.ooadassignment.bankingsystemtest.view.UserView;
+import com.ooadassignment.bankingsystemtest.util.ValidationUtil;
 
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Scanner;
-import java.sql.Date;
 
 public class UserController {
-    private final UserDAO dao;
-    private final UserView view;
-    private final Scanner sc;
-    private final User user;
-    private SimpleDateFormat dateFormat;
+    private UserView userView;
+    private SavingsDAO savingsDAO;
+    private InvestmentDAO investmentDAO;
 
     public UserController() {
-        dao = new UserDAO();
-        view = new UserView();
-        user = new User();
-        sc = new Scanner(System.in);
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.userView = new UserView();
+        this.savingsDAO = new SavingsDAO();
+        this.investmentDAO = new InvestmentDAO();
     }
 
-    public void run() throws ParseException, SQLException {
-        while(true){
-            view.showMenu();
-            int choice = sc.nextInt();
+    public void handleMenu(int customerId) {
+        int choice;
+        do {
+            userView.showMenu();
+            choice = userView.getMenuChoice();
 
-            switch (choice){
-                //case 1-> viewAllAccounts();
-                case 2-> createCustomer();
-                //case 3-> dao.viewInvestmentAccount();
-                //case 4-> dao.viewChequeAccount();
-                //case 5-> dao.viewCustomerProfile();
-                //case 6-> dao.depositFunds();
-                //case 7-> dao.withdrawFunds();
-                case 8-> dao.exit();
-                default -> System.out.println("Invalid choice. Please try again.");
+            switch (choice) {
+                case 1:
+                    handleAccountCreation(customerId);
+                    break;
+                case 8:
+                    System.out.println("Thank you for using our banking system!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please select 1 to create an account or 8 to exit.");
+                    break;
             }
+        } while (choice != 8);
+    }
+
+    public void handleAccountCreation(int customerId) {
+        int choice = userView.getAccountCreationChoice();
+
+        switch (choice) {
+            case 1:
+                createSavingsAccount(customerId);
+                break;
+            case 2:
+                createInvestmentAccount(customerId);
+                break;
+            case 3:
+                return;
+            default:
+                userView.showAccountCreationFailure("Invalid choice. Please select 1 for Savings or 2 for Investment.");
+                break;
         }
     }
 
-    public void createCustomer() throws ParseException, SQLException {
-        System.out.println("Enter customer Id: ");
-        int customer_id = sc.nextInt();
-
-        System.out.println("Enter first name: ");
-        String first_name = sc.next();
-
-        System.out.println("Enter last name: ");
-        String last_name = sc.next();
-
-        System.out.println("Enter phone number: ");
-        int phone_number = sc.nextInt();
-
-        System.out.println("Enter email address: ");
-        String email = sc.next();
-
-        System.out.println("Enter physical address: ");
-        String address = sc.next();
-
-        System.out.println("Enter date of birth: ");
-        String dob = sc.next();
-
-
-        System.out.println("Enter SSN: ");
-        int ssn = sc.nextInt();
-
-        System.out.println("Enter date of registration: ");
-        String registrationDate = sc.next();
-
-        Date date_of_birth = null;
-        Date registration_date = null;
+    private void createSavingsAccount(int customerId) {
         try {
-            java.util.Date DateOfBirth = dateFormat.parse(dob);
-            java.util.Date RegistrationDate = dateFormat.parse(registrationDate);
-            date_of_birth = new Date(DateOfBirth.getTime());
-            registration_date = new Date(RegistrationDate.getTime());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+            double initialDeposit = userView.getInitialDeposit();
 
-        dao.createCustomer(new User(customer_id, first_name, last_name, email, phone_number, address, ssn, date_of_birth, registration_date));
+            // Validate deposit amount using business rules
+            ValidationUtil.ValidationResult validation = ValidationUtil.validateDepositAmount(initialDeposit, "Savings");
+            if (!validation.isValid()) {
+                userView.showAccountCreationFailure(validation.getMessage());
+                return;
+            }
+
+            Savings savings = new Savings();
+            savings.setCustomer_id(customerId);
+            savings.setBalance(initialDeposit);
+            savings.setAccountType("Savings");
+
+            savingsDAO.createSavingsAccount(savings);
+            userView.showAccountCreationSuccess("Savings");
+
+        } catch (SQLException e) {
+            userView.showAccountCreationFailure("Database error: " + e.getMessage());
+        } catch (Exception e) {
+            userView.showAccountCreationFailure("Error: " + e.getMessage());
+        }
     }
 
+    private void createInvestmentAccount(int customerId) {
+        try {
+            double initialDeposit = userView.getInitialDeposit();
+
+            // Validate deposit amount using business rules
+            ValidationUtil.ValidationResult validation = ValidationUtil.validateDepositAmount(initialDeposit, "Investment");
+            if (!validation.isValid()) {
+                userView.showAccountCreationFailure(validation.getMessage());
+                return;
+            }
+
+            Investment investment = new Investment();
+            investment.setCustomer_id(customerId);
+            investment.setBalance(initialDeposit);
+            investment.setAccountType("Investment");
+
+            investmentDAO.createInvestmentAccount(investment);
+            userView.showAccountCreationSuccess("Investment");
+
+        } catch (SQLException e) {
+            userView.showAccountCreationFailure("Database error: " + e.getMessage());
+        } catch (Exception e) {
+            userView.showAccountCreationFailure("Error: " + e.getMessage());
+        }
+    }
 }

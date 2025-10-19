@@ -20,8 +20,10 @@ public class Investment extends Account{
     public String toString() {
         return "Investment{" +
                 "investmentAccountId=" + investmentAccountId +
-                ", balance=" + balance +
-                ", interestRate=" + interestRate +
+                ", accountId=" + getAccountId() +
+                ", customerId=" + getCustomer_id() +
+                ", balance=" + getBalance() +
+                ", accountType='" + getAccountType() + '\'' +
                 '}';
     }
 }

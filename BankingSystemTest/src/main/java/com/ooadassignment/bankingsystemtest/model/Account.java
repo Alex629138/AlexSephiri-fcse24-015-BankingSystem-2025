@@ -5,7 +5,10 @@ import java.sql.Date;
 public class Account extends User{
     private int accountId;
     private double balance;
-    private String accountType, branch;
+    private String accountType, branch, accountHolder;
+    private double interestRate;
+    private boolean isActive;
+    private Date registrationDate;
 
     public Account(){}
 
@@ -49,6 +52,38 @@ public class Account extends User{
         this.branch = branch;
     }
 
+    public String getAccountHolder() {
+        return accountHolder;
+    }
+
+    public void setAccountHolder(String accountHolder) {
+        this.accountHolder = accountHolder;
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(double interestRate) {
+        this.interestRate = interestRate;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
@@ -56,6 +91,10 @@ public class Account extends User{
                 ", balance=" + balance +
                 ", accountType='" + accountType + '\'' +
                 ", branch='" + branch + '\'' +
+                ", accountHolder='" + accountHolder + '\'' +
+                ", interestRate=" + interestRate +
+                ", isActive=" + isActive +
+                ", registrationDate=" + registrationDate +
                 '}';
     }
 }

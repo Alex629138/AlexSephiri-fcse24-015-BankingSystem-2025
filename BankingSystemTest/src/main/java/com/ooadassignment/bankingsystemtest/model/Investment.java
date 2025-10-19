@@ -9,7 +9,7 @@ public class Investment extends Account{
 
     public Investment(){}
 
-    public Investment(int customer_id, String first_name, String last_name, String email, int phone_number, String address, int ssn, Date date_of_birth, Date registration_date, int accountId, double balance, String accountType, String branch, int investmentAccountId, double balance1, double interestRate) {
+    public Investment(int customer_id, String first_name, String last_name, String email, String phone_number, String address, String ssn, Date date_of_birth, Date registration_date, int accountId, double balance, String accountType, String branch, int investmentAccountId, double balance1, double interestRate) {
         super(customer_id, first_name, last_name, email, phone_number, address, ssn, date_of_birth, registration_date, accountId, balance, accountType, branch);
         this.investmentAccountId = investmentAccountId;
         this.balance = balance1;

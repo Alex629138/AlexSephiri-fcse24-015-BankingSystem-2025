@@ -62,7 +62,6 @@ public class UserController {
         try {
             double initialDeposit = userView.getInitialDeposit();
 
-            // Validate deposit amount using business rules
             ValidationUtil.ValidationResult validation = ValidationUtil.validateDepositAmount(initialDeposit, "Savings");
             if (!validation.isValid()) {
                 userView.showAccountCreationFailure(validation.getMessage());
@@ -88,7 +87,6 @@ public class UserController {
         try {
             double initialDeposit = userView.getInitialDeposit();
 
-            // Validate deposit amount using business rules
             ValidationUtil.ValidationResult validation = ValidationUtil.validateDepositAmount(initialDeposit, "Investment");
             if (!validation.isValid()) {
                 userView.showAccountCreationFailure(validation.getMessage());

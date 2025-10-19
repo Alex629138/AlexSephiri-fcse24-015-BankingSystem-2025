@@ -10,7 +10,7 @@ public class PayInterest extends Account{
 
     public PayInterest() {}
 
-    public PayInterest(int customer_id, String first_name, String last_name, String email, int phone_number, String address, int ssn, Date date_of_birth, Date registration_date, int accountId, double balance, String accountType, String branch, int payInterestId, int userId, int accountId1, double interestAmount) {
+    public PayInterest(int customer_id, String first_name, String last_name, String email, String phone_number, String address, String ssn, Date date_of_birth, Date registration_date, int accountId, double balance, String accountType, String branch, int payInterestId, int userId, int accountId1, double interestAmount) {
         super(customer_id, first_name, last_name, email, phone_number, address, ssn, date_of_birth, registration_date, accountId, balance, accountType, branch);
         this.payInterestId = payInterestId;
         this.userId = userId;

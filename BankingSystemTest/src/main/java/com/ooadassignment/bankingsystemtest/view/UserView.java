@@ -8,6 +8,7 @@ public class UserView {
     public void showMenu(){
         System.out.println("\n---Banking System---");
         System.out.println("1: Create Account");
+        System.out.println("2: Create New user");
         System.out.println("8: Exit");
         System.out.println("Choose an option: ");
     }

@@ -3,13 +3,14 @@ package com.ooadassignment.bankingsystemtest.model;
 import java.sql.Date;
 
 public class User {
-    private int customer_id, ssn, phone_number;
+    private int customer_id;
+    private String ssn, phone_number;
     private String first_name, last_name, email, address;
     private Date date_of_birth,  registration_date;
 
     public User() {}
 
-    public User(int customer_id, String first_name, String last_name, String email, int phone_number, String address, int ssn, Date date_of_birth, Date registration_date) {
+    public User(int customer_id, String first_name, String last_name, String email, String phone_number, String address, String ssn, Date date_of_birth, Date registration_date) {
         this.customer_id = customer_id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -29,11 +30,11 @@ public class User {
         this.customer_id = customer_id;
     }
 
-    public int getPhone_number() {
+    public String getPhone_number() {
         return phone_number;
     }
 
-    public void setPhone_number(int phone_number) {
+    public void setPhone_number(String phone_number) {
         this.phone_number = phone_number;
     }
 
@@ -69,11 +70,11 @@ public class User {
         this.address = address;
     }
 
-    public int getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(int ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 

@@ -2,81 +2,154 @@ package com.ooadassignment.bankingsystemtest.controller;
 
 import com.ooadassignment.bankingsystemtest.dao.UserDAO;
 import com.ooadassignment.bankingsystemtest.model.User;
+import com.ooadassignment.bankingsystemtest.util.DBConnection;
 import com.ooadassignment.bankingsystemtest.view.AdminView;
 
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-import java.sql.Date;
 
 public class AdminController {
     private final UserDAO dao;
     private final AdminView view;
-    private final Scanner sc;
     private final SimpleDateFormat dateFormat;
 
     public AdminController() {
         dao = new UserDAO();
         view = new AdminView();
-        sc = new Scanner(System.in);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     }
 
     public void run() throws ParseException, SQLException {
+        Scanner inputScanner = new Scanner(System.in);
+
         while(true){
             view.showMenu();
-            int choice = sc.nextInt();
 
-            switch (choice){
-                case 1-> createCustomer();
-                case 8-> dao.exit();
-                default -> System.out.println("Invalid choice. Please try again.");
+            try {
+                int choice = inputScanner.nextInt();
+                inputScanner.nextLine();
+
+                switch (choice){
+                    case 1-> createCustomer(inputScanner);
+                    case 2-> viewAllCustomers();
+                    case 8-> {
+                        System.out.println("Exiting...");
+                        inputScanner.close();
+                        dao.exit();
+                    }
+                    default -> System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter a number.");
+                inputScanner.nextLine();
             }
         }
     }
 
-    public void createCustomer() throws ParseException, SQLException {
-        System.out.println("Enter customer Id: ");
-        int customer_id = sc.nextInt();
+    public void createCustomer(Scanner scanner) throws ParseException, SQLException {
+        System.out.println("\n=== CREATE NEW CUSTOMER ===");
 
-        System.out.println("Enter first name: ");
-        String first_name = sc.next();
+        System.out.print("Enter first name: ");
+        String first_name = scanner.nextLine();
 
-        System.out.println("Enter last name: ");
-        String last_name = sc.next();
+        System.out.print("Enter last name: ");
+        String last_name = scanner.nextLine();
 
-        System.out.println("Enter phone number: ");
-        int phone_number = sc.nextInt();
+        System.out.print("Enter phone number: ");
+        String phone_number_str = scanner.nextLine();
 
-        System.out.println("Enter email address: ");
-        String email = sc.next();
+        System.out.print("Enter email address: ");
+        String email = scanner.nextLine();
 
-        System.out.println("Enter physical address: ");
-        String address = sc.next();
+        System.out.print("Enter physical address: ");
+        String address = scanner.nextLine();
 
-        System.out.println("Enter date of birth: ");
-        String dob = sc.next();
+        System.out.print("Enter date of birth (yyyy-MM-dd): ");
+        String dob = scanner.nextLine();
 
+        System.out.print("Enter SSN: ");
+        String ssn_str = scanner.nextLine();
 
-        System.out.println("Enter SSN: ");
-        int ssn = sc.nextInt();
-
-        System.out.println("Enter date of registration: ");
-        String registrationDate = sc.next();
+        System.out.print("Enter date of registration (yyyy-MM-dd): ");
+        String registrationDate = scanner.nextLine();
 
         Date date_of_birth = null;
         Date registration_date = null;
         try {
-            java.util.Date DateOfBirth = dateFormat.parse(dob);
-            java.util.Date RegistrationDate = dateFormat.parse(registrationDate);
-            date_of_birth = new Date(DateOfBirth.getTime());
-            registration_date = new Date(RegistrationDate.getTime());
+            if (!dob.trim().isEmpty()) {
+                java.util.Date DateOfBirth = dateFormat.parse(dob.trim());
+                date_of_birth = new Date(DateOfBirth.getTime());
+            }
+
+            if (!registrationDate.trim().isEmpty()) {
+                java.util.Date RegistrationDate = dateFormat.parse(registrationDate.trim());
+                registration_date = new Date(RegistrationDate.getTime());
+            }
         } catch (ParseException e) {
+            System.out.println("Error parsing dates. Please use format yyyy-MM-dd");
+            System.out.println("Date of birth: '" + dob + "'");
+            System.out.println("Registration date: '" + registrationDate + "'");
             e.printStackTrace();
+            return;
         }
 
-        dao.createCustomer(new User(customer_id, first_name, last_name, email, phone_number, address, ssn, date_of_birth, registration_date));
+        User newCustomer = new User(0, first_name, last_name, email, phone_number_str, address, ssn_str, date_of_birth, registration_date);
+
+        try {
+            dao.createCustomer(newCustomer);
+            System.out.println("Customer created successfully!");
+        } catch (SQLException e) {
+            System.out.println("Error creating customer: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public static List<User> viewAllCustomers() throws SQLException {
+        String sql = "SELECT customer_id, first_name, last_name, email, phone_number, address, ssn, date_of_birth, registration_date FROM customers";
+        List<User> customers = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                User user = new User();
+                user.setCustomer_id(rs.getInt("customer_id"));
+                user.setFirst_name(rs.getString("first_name"));
+                user.setLast_name(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone_number(rs.getString("phone_number"));
+                user.setAddress(rs.getString("address"));
+                user.setSsn(rs.getString("ssn"));
+                user.setDate_of_birth(rs.getDate("date_of_birth"));
+                user.setRegistration_date(rs.getDate("registration_date"));
+
+                customers.add(user);
+            }
+
+            System.out.println("Successfully retrieved " + customers.size() + " customers from database!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error retrieving customers: " + e.getMessage());
+            throw e;
+        }
+
+        if (customers.isEmpty()) {
+            System.out.println("No customers found in the database.");
+        } else {
+            System.out.println("\n=== ALL CUSTOMER DETAILS ===");
+            for (User customer : customers) {
+                System.out.println(customer.toString());
+                System.out.println("-----------------------------");
+            }
+        }
+
+        return customers;
     }
 
 }

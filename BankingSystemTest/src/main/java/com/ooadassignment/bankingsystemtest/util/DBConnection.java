@@ -5,9 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private static final String URL = "jdbc:postgresql://localhost:5432/users";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "alex123";
+
+    private static final String URL2 = "jdbc:postgresql://aws-1-us-east-1.pooler.supabase.com:6543/postgres?user=postgres.fvmemjaaxahgtarnhaxb&password=alexsephiri";
 
     public static Connection getConnection() throws SQLException {
         try{
@@ -16,7 +15,7 @@ public class DBConnection {
             throw new SQLException("PostgreSQL JDBC Driver not found", e);
         }
 
-        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        Connection conn = DriverManager.getConnection(URL2);
 
         if (conn != null){
             System.out.println("Database Connected!");
@@ -26,21 +25,9 @@ public class DBConnection {
         }
     }
 
-    public static void closeConnection(Connection conn) {
-        if (conn != null) {
-            try {
-                conn.close();
-                System.out.println("Database connection closed.");
-            } catch (SQLException e) {
-                System.err.println("Error closing connection: " + e.getMessage());
-            }
-        }
-    }
-
     public static void main(String[] args) {
         try {
             Connection conn = getConnection();
-            closeConnection(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }

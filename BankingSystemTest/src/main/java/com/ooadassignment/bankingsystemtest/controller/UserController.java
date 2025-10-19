@@ -10,9 +10,9 @@ import com.ooadassignment.bankingsystemtest.util.ValidationUtil;
 import java.sql.SQLException;
 
 public class UserController {
-    private UserView userView;
-    private SavingsDAO savingsDAO;
-    private InvestmentDAO investmentDAO;
+    private final UserView userView;
+    private final SavingsDAO savingsDAO;
+    private final InvestmentDAO investmentDAO;
 
     public UserController() {
         this.userView = new UserView();

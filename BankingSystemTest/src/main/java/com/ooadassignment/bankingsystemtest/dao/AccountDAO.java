@@ -1,11 +1,13 @@
 package com.ooadassignment.bankingsystemtest.dao;
 
 import com.ooadassignment.bankingsystemtest.model.Account;
+import com.ooadassignment.bankingsystemtest.model.User;
 import com.ooadassignment.bankingsystemtest.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 public class AccountDAO {
 
@@ -49,4 +51,6 @@ public class AccountDAO {
     public void updateAccountBalance(int accountId, double newBalance) throws SQLException {
         
     }
+
+
 }

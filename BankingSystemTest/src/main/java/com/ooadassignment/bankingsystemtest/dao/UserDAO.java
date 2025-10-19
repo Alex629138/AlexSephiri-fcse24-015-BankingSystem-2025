@@ -5,7 +5,10 @@ import com.ooadassignment.bankingsystemtest.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
 
@@ -35,5 +38,59 @@ public class UserDAO {
 
     public void exit(){
         System.exit(0);
+    }
+
+    public static List<User> viewAllCustomers() throws SQLException {
+        String sql = "SELECT * FROM customers";
+        List<User> customers = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                User user = new User();
+                user.setCustomer_id(rs.getInt("customer_id"));
+                user.setFirst_name(rs.getString("first_name"));
+                user.setLast_name(rs.getString("last_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPhone_number(rs.getInt("phone_number"));
+                user.setAddress(rs.getString("address"));
+                user.setSsn(rs.getInt("ssn"));
+                user.setDate_of_birth(rs.getDate("date_of_birth"));
+                user.setRegistration_date(rs.getDate("registration_date"));
+
+                customers.add(user);
+
+            }
+
+            System.out.println("Successfully retrieved " + customers.size() + " customers from database!");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error retrieving customers: " + e.getMessage());
+            throw e;
+        }
+
+        return customers;
+    }
+
+    public static void main(String[] args){
+        try {
+            List<User> customers = viewAllCustomers();
+
+            if (customers.isEmpty()) {
+                System.out.println("No customers found in the database.");
+            } else {
+                System.out.println("\n=== ALL CUSTOMER DETAILS ===");
+                for (User customer : customers) {
+                    System.out.println(customer.toString());
+                    System.out.println("-----------------------------");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error connecting to database: " + e.getMessage());
+        }
     }
 }

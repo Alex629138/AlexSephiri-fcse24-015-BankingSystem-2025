@@ -96,7 +96,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "User{"+
                 "customer_id=" + customer_id +
                 ", phone_number=" + phone_number +
                 ", first_name='" + first_name + '\'' +

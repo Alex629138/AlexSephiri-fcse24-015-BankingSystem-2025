@@ -4,10 +4,9 @@ import java.sql.Date;
 
 public class Account extends User{
     private int accountId;
-    private double balance;
-    private String accountType, branch, accountHolder;
-    private double interestRate;
+    private double balance, interestRate;
     private boolean isActive;
+    private String accountType, branch, accountHolder;
     private Date registrationDate;
 
     public Account(){}

@@ -1,13 +1,23 @@
 package com.ooadassignment.bankingsystemtest;
 
-import com.ooadassignment.bankingsystemtest.controller.AdminController;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-import java.sql.SQLException;
-import java.text.ParseException;
+public class Main extends Application {
 
-public class Main {
-    public static void main(String[] args) throws SQLException, ParseException {
-        AdminController adminController = new AdminController();
-        adminController.run();
+    @Override
+    public void start(Stage stage){
+        try{
+                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                stage.setTitle("Login");
+                stage.setScene(scene);
+                stage.show();
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

@@ -6,8 +6,7 @@ import com.ooadassignment.bankingsystemtest.util.DBConnection;
 import com.ooadassignment.bankingsystemtest.view.AdminView;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -124,7 +123,6 @@ public class AdminController {
                 user.setEmail(rs.getString("email"));
                 user.setPhone_number(rs.getString("phone_number"));
                 user.setAddress(rs.getString("address"));
-                user.setSsn(rs.getString("ssn"));
                 user.setDate_of_birth(rs.getDate("date_of_birth"));
                 user.setRegistration_date(rs.getDate("registration_date"));
 

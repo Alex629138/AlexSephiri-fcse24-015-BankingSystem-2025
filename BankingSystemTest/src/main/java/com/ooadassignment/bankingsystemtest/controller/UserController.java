@@ -1,110 +1,79 @@
 package com.ooadassignment.bankingsystemtest.controller;
 
-import com.ooadassignment.bankingsystemtest.dao.SavingsDAO;
-import com.ooadassignment.bankingsystemtest.dao.InvestmentDAO;
-import com.ooadassignment.bankingsystemtest.model.Savings;
-import com.ooadassignment.bankingsystemtest.model.Investment;
-import com.ooadassignment.bankingsystemtest.view.UserView;
+import com.ooadassignment.bankingsystemtest.HelloApplication;
+import com.ooadassignment.bankingsystemtest.dao.*;
+import com.ooadassignment.bankingsystemtest.model.*;
 import com.ooadassignment.bankingsystemtest.util.ValidationUtil;
+import javafx.fxml.*;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.*;
 
 public class UserController {
-    private final UserView userView;
-    private final SavingsDAO savingsDAO;
-    private final InvestmentDAO investmentDAO;
+    @FXML
+    private Button profileButton;
 
-    public UserController() {
-        this.userView = new UserView();
-        this.savingsDAO = new SavingsDAO();
-        this.investmentDAO = new InvestmentDAO();
+    private User user;
+
+    @FXML
+    private Label firstName, lastName, idNumber, dateOfBirth, dateOfRegistration;
+
+
+    public UserController(Button profileButton, User user, Label firstName, Label lastName, Label idNumber, Label dateOfBirth, Label dateOfRegistration) {
+        this.profileButton = profileButton;
+        this.user = user;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.idNumber = idNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.dateOfRegistration = dateOfRegistration;
     }
 
-    public void handleMenu(int customerId) {
-        int choice;
-        do {
-            userView.showMenu();
-            choice = userView.getMenuChoice();
+    @FXML
+    protected void showProfileScreen() throws IOException {
 
-            switch (choice) {
-                case 1:
-                    handleAccountCreation(customerId);
-                    break;
-                case 8:
-                    System.out.println("Thank you for using our banking system!");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please select 1 to create an account or 8 to exit.");
-                    break;
-            }
-        } while (choice != 8);
+        Stage stage = new Stage();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        stage.setTitle("Login");
+        stage.setScene(scene);
+        stage.show();
+
+        showFirstName();
+        showLastName();
+        showIdNumber();
+        showDateOfBirth();
+        showDateOfRegistration();
     }
 
-    public void handleAccountCreation(int customerId) {
-        int choice = userView.getAccountCreationChoice();
-
-        switch (choice) {
-            case 1:
-                createSavingsAccount(customerId);
-                break;
-            case 2:
-                createInvestmentAccount(customerId);
-                break;
-            case 3:
-                return;
-            default:
-                userView.showAccountCreationFailure("Invalid choice. Please select 1 for Savings or 2 for Investment.");
-                break;
-        }
+    @FXML
+    protected void showFirstName(){
+        firstName.setText(user.getFirst_name());
     }
 
-    private void createSavingsAccount(int customerId) {
-        try {
-            double initialDeposit = userView.getInitialDeposit();
-
-            ValidationUtil.ValidationResult validation = ValidationUtil.validateDepositAmount(initialDeposit, "Savings");
-            if (!validation.isValid()) {
-                userView.showAccountCreationFailure(validation.getMessage());
-                return;
-            }
-
-            Savings savings = new Savings();
-            savings.setCustomer_id(customerId);
-            savings.setBalance(initialDeposit);
-            savings.setAccountType("Savings");
-
-            savingsDAO.createSavingsAccount(savings);
-            userView.showAccountCreationSuccess("Savings");
-
-        } catch (SQLException e) {
-            userView.showAccountCreationFailure("Database error: " + e.getMessage());
-        } catch (Exception e) {
-            userView.showAccountCreationFailure("Error: " + e.getMessage());
-        }
+    @FXML
+    protected void showLastName(){
+        lastName.setText(user.getLast_name());
     }
 
-    private void createInvestmentAccount(int customerId) {
-        try {
-            double initialDeposit = userView.getInitialDeposit();
-
-            ValidationUtil.ValidationResult validation = ValidationUtil.validateDepositAmount(initialDeposit, "Investment");
-            if (!validation.isValid()) {
-                userView.showAccountCreationFailure(validation.getMessage());
-                return;
-            }
-
-            Investment investment = new Investment();
-            investment.setCustomer_id(customerId);
-            investment.setBalance(initialDeposit);
-            investment.setAccountType("Investment");
-
-            investmentDAO.createInvestmentAccount(investment);
-            userView.showAccountCreationSuccess("Investment");
-
-        } catch (SQLException e) {
-            userView.showAccountCreationFailure("Database error: " + e.getMessage());
-        } catch (Exception e) {
-            userView.showAccountCreationFailure("Error: " + e.getMessage());
-        }
+    @FXML
+    protected void showIdNumber(){
+        idNumber.setText(String.valueOf((user.getFirst_name())));
     }
+
+    @FXML
+    protected void showDateOfBirth(){
+        dateOfBirth.setText(String.valueOf(user.getDate_of_birth()));
+    }
+
+    @FXML
+    protected void showDateOfRegistration(){
+        dateOfRegistration.setText(String.valueOf(user.getRegistration_date()));
+    }
+
 }

@@ -1,45 +1,36 @@
 package com.ooadassignment.bankingsystemtest.view;
 
-import java.util.Scanner;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import java.io.IOException;
 
-public class UserView {
-    private final Scanner scanner = new Scanner(System.in);
+public class UserView extends Application {
 
-    public void showMenu(){
-        System.out.println("\n---Banking System---");
-        System.out.println("1: Create Account");
-        System.out.println("2: Create New user");
-        System.out.println("8: Exit");
-        System.out.println("Choose an option: ");
+    @Override
+    public void start(Stage primaryStage) throws IOException {
+        // Load the hello-view.fxml file with UserController
+        FXMLLoader fxmlLoader = new FXMLLoader(UserView.class.getResource("/com/ooadassignment/bankingsystemtest/hello-view.fxml"));
+        Parent root = fxmlLoader.load();
+
+        // Create scene and set it to the stage
+        Scene scene = new Scene(root, 600, 400);
+        primaryStage.setTitle("Trust Bank - User Dashboard");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
-    public int getAccountCreationChoice() {
-        System.out.println("\n---Account Creation---");
-        System.out.println("1: Create Savings Account");
-        System.out.println("2: Create Investment Account");
-        System.out.println("3: Back to Main Menu");
-        System.out.print("Choose account type: ");
-        return scanner.nextInt();
+    // Method to launch the user view
+    public static void showUserView() {
+        launch();
     }
 
-    public double getInitialDeposit() {
-        System.out.print("Enter initial deposit amount: $");
-        return scanner.nextDouble();
-    }
-
-    public void showAccountCreationSuccess(String accountType) {
-        System.out.println(accountType + " account created successfully!");
-    }
-
-    public void showAccountCreationFailure(String reason) {
-        System.out.println("Account creation failed: " + reason);
-    }
-
-    public void showMinimumDepositError() {
-        System.out.println("Investment account requires a minimum deposit of $500.00");
-    }
-
-    public int getMenuChoice() {
-        return scanner.nextInt();
+    // Method to show user view with a specific customer ID (for future enhancement)
+    public static void showUserView(int customerId) {
+        // Store customer ID for the controller to use
+        System.setProperty("current.customer.id", String.valueOf(customerId));
+        launch();
     }
 }

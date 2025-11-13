@@ -1,23 +1,18 @@
 package com.ooadassignment.bankingsystemtest.controller;
 
-import com.ooadassignment.bankingsystemtest.HelloApplication;
 import com.ooadassignment.bankingsystemtest.model.User;
 import com.ooadassignment.bankingsystemtest.util.DBConnection;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.*;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class Login {
+
+    private User user;
 
     @FXML
     public Button loginButton;
@@ -30,8 +25,6 @@ public class Login {
 
     @FXML
     private Label messageLabel;
-
-    private User user;
 
     @FXML
     protected void logIn() {
@@ -69,7 +62,7 @@ public class Login {
                         foundUser.setRegistration_date(rs.getDate("registration_date"));
 
                         this.user = foundUser;
-                        messageLabel.setText("Welcome back " + user.getFirst_name() + " " + user.getLast_name());
+                        messageLabel.setText("Welcome " + user.getFirst_name() + " " + user.getLast_name());
 
                         switchToHomeScreen();
 
@@ -88,12 +81,14 @@ public class Login {
 
     @FXML
     private void switchToHomeScreen() throws IOException {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("home.fxml"));
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/ooadassignment/bankingsystemtest/view/home.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setTitle("Home Page");
+
+        Stage stage = (Stage) loginButton.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+
     }
 
 }

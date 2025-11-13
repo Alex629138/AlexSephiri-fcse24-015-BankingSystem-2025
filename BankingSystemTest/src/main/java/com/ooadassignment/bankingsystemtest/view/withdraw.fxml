@@ -17,13 +17,13 @@
         <Line endX="406.0" endY="-3.814697265625E-6" layoutX="194.0" layoutY="50.0" startX="-106.99999237060547" startY="-3.814697265625E-6" stroke="WHITE" />
         <ImageView fitHeight="91.0" fitWidth="72.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@TrustBankLogo.png" />
+                <Image url="@../../../../../resources/com/ooadassignment/bankingsystemtest/TrustBankLogo.png" />
             </image>
         </ImageView>
-        <ButtonBar layoutX="403.0" layoutY="332.0" prefHeight="40.0" prefWidth="183.0">
+        <ButtonBar layoutX="411.0" layoutY="332.0" prefHeight="40.0" prefWidth="180.0">
             <buttons>
                 <Button mnemonicParsing="false" style="-fx-padding: 10px; -fx-background-color: #900d09; -fx-border-radius: 20px;" text="Cancel" textFill="WHITE" />
-            <Button mnemonicParsing="false" style="-fx-padding: 10px; -fx-background-color: #028a0f; -fx-border-radius: 20px;" text="Deposit" textFill="WHITE" />
+            <Button mnemonicParsing="false" style="-fx-padding: 10px; -fx-background-color: #028a0f; -fx-border-radius: 20px;" text="Withdraw" textFill="WHITE" />
             </buttons>
         </ButtonBar>
         <Text fill="WHITE" layoutX="106.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 700;" text="Welcome to TrustBank">
@@ -37,23 +37,21 @@
                 <Button mnemonicParsing="false" style="-fx-background-color: #900d09; -fx-cursor: hand;" text="Sign out" textFill="WHITE" />
             </buttons>
         </ButtonBar>
-      <Label layoutX="17.0" layoutY="339.0" text="Available Balance: " textFill="WHITE">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="163.0" layoutY="339.0" textFill="WHITE">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Pane layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0">
-         <children>
-            <TextField layoutX="26.0" layoutY="56.0" />
-            <TextField layoutX="26.0" layoutY="122.0" />
-            <Label layoutX="26.0" layoutY="24.0" text="Enter Account number : " textFill="WHITE" />
-            <Label layoutX="26.0" layoutY="92.0" text="Enter amount to deposit : " textFill="WHITE" />
-         </children>
-      </Pane>
+        <Label layoutX="17.0" layoutY="339.0" text="Available Balance: " textFill="WHITE">
+            <font>
+                <Font size="17.0" />
+            </font>
+        </Label>
+        <Label id="availableBalance" fx:id="availableBalance" layoutX="163.0" layoutY="339.0" textFill="WHITE">
+            <font>
+                <Font size="17.0" />
+            </font>
+        </Label>
+        <Pane layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0">
+            <children>
+                <TextField layoutX="25.0" layoutY="88.0" />
+                <Label layoutX="25.0" layoutY="61.0" text="Enter amount to withdraw: " textFill="WHITE" />
+            </children>
+        </Pane>
     </children>
 </AnchorPane>

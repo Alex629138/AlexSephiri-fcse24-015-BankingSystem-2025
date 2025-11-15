@@ -1,6 +1,7 @@
 package com.ooadassignment.bankingsystemtest.controller;
 
 import com.ooadassignment.bankingsystemtest.model.User;
+import com.ooadassignment.bankingsystemtest.session.UserSession;
 import com.ooadassignment.bankingsystemtest.util.DBConnection;
 import javafx.fxml.*;
 import javafx.scene.Scene;
@@ -58,6 +59,7 @@ public class Login {
                             java.sql.Date registrationDate = rs.getDate("registration_date");
 
                             user = new User(customerId, firstName, lastName, email, phoneNumber, address, dateOfBrith, registrationDate);
+                            UserSession.getInstance().setLoggedInUser(user);
 
                             switchToHomeScreen();
 
@@ -78,16 +80,14 @@ public class Login {
 
     @FXML
     private void switchToHomeScreen() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ooadassignment/bankingsystemtest/view/home.fxml"));
+        Scene scene = new Scene(loader.load(), 600, 400);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/ooadassignment/bankingsystemtest/view/home.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-
-        HomeController homeController = fxmlLoader.getController();
-        homeController.setUser(user);
 
         Stage stage = (Stage) loginButton.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
+
 
 }

@@ -10,4 +10,5 @@ module com.ooadassignment.bankingsystemtest {
     opens com.ooadassignment.bankingsystemtest.controller to javafx.fxml;
     exports com.ooadassignment.bankingsystemtest;
     exports com.ooadassignment.bankingsystemtest.controller;
+    exports com.ooadassignment.bankingsystemtest.model;
 }

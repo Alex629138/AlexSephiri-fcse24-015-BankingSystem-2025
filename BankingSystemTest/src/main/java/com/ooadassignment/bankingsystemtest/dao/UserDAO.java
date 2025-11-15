@@ -13,7 +13,7 @@ import java.util.List;
 public class UserDAO {
 
     public void createCustomer(User user) throws SQLException{
-        String sql = "INSERT INTO customers (first_name, last_name, email, phone_number, address, ssn, date_of_birth, registration_date) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO customers (first_name, last_name, email, phone_number, address, date_of_birth, registration_date) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         try{
             Connection conn = DBConnection.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -23,9 +23,8 @@ public class UserDAO {
             stmt.setString(3, user.getEmail());
             stmt.setString(4, user.getPhone_number());
             stmt.setString(5, user.getAddress());
-            stmt.setString(6, user.getSsn());
-            stmt.setDate(7, user.getDate_of_birth());
-            stmt.setDate(8, user.getRegistration_date());
+            stmt.setDate(6, user.getDate_of_birth());
+            stmt.setDate(7, user.getRegistration_date());
             stmt.executeUpdate();
 
             System.out.println("Customer created successfully!");

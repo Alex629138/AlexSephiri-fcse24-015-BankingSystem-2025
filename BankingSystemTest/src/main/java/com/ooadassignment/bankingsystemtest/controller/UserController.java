@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public class UserController {
 
+    public User user;
+
     public UserController(){}
 
     @FXML
@@ -19,6 +21,10 @@ public class UserController {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void setUser(User newUser){
+        this.user = newUser;
     }
 
 }

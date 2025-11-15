@@ -4,20 +4,18 @@ import java.sql.Date;
 
 public class User {
     private int customer_id;
-    private String ssn, phone_number;
-    private String first_name, last_name, email, address;
+    private String first_name, last_name, email, address, phone_number;
     private Date date_of_birth,  registration_date;
 
     public User() {}
 
-    public User(int customer_id, String first_name, String last_name, String email, String phone_number, String address, String ssn, Date date_of_birth, Date registration_date) {
+    public User(int customer_id, String first_name, String last_name, String email, String phone_number, String address, Date date_of_birth, Date registration_date) {
         this.customer_id = customer_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.phone_number = phone_number;
         this.email = email;
         this.address = address;
-        this.ssn = ssn;
         this.date_of_birth = date_of_birth;
         this.registration_date = registration_date;
     }
@@ -70,14 +68,6 @@ public class User {
         this.address = address;
     }
 
-    public String getSsn() {
-        return ssn;
-    }
-
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
-    }
-
     public Date getDate_of_birth() {
         return date_of_birth;
     }
@@ -103,7 +93,6 @@ public class User {
                 ", last_name='" + last_name + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
-                ", ssn='" + ssn + '\'' +
                 ", date_of_birth=" + date_of_birth +
                 ", registration_date=" + registration_date +
                 '}';

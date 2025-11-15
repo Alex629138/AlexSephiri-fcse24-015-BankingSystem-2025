@@ -12,44 +12,46 @@ import java.io.IOException;
 
 public class ProfileController {
 
+
+
     private User currentUser;
 
     @FXML
     private Label firstName, lastName, idNumber, dateOfBirth, dateOfRegistration;
 
+    @FXML
+    public Button profileButton;
+
     public ProfileController() {}
+
+    private void loadUserInfo() {
+        if (currentUser == null) return;
+
+        firstName.setText(Session.currentUser.getFirst_name());
+        lastName.setText(Session.currentUser.getLast_name());
+        idNumber.setText(String.valueOf(Session.currentUser.getCustomer_id()));
+        dateOfBirth.setText(Session.currentUser.getDate_of_birth().toString());
+        dateOfRegistration.setText(Session.currentUser.getRegistration_date().toString());
+    }
 
     public void setUser(User user){
         this.currentUser = user;
+        loadUserInfo();
     }
 
     @FXML
-    private void displayUserInfo() throws IOException{
+    private void goToProfile() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ooadassignment/bankingsystemtest/view/profile.fxml"));
+        Scene scene = new Scene(loader.load(), 600, 400);
 
-        if (currentUser != null) {
-            if (firstName != null) {
-                firstName.setText(currentUser.getFirst_name());
-            }
-            if (lastName != null) {
-                lastName.setText(currentUser.getLast_name());
-            }
-            if (idNumber != null) {
-                idNumber.setText(String.valueOf(currentUser.getCustomer_id()));
-            }
-            if (dateOfBirth != null) {
-                dateOfBirth.setText(String.valueOf(currentUser.getRegistration_date()));
-            }
-            if (dateOfRegistration != null) {
-                dateOfRegistration.setText(String.valueOf(currentUser.getRegistration_date()));
-            }
-        }
+        ProfileController controller = loader.getController();
+        controller.setUser(Session.currentUser);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/ooadassignment/bankingsystemtest/view/profile.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        Stage stage = new Stage();
+        Stage stage = (Stage) profileButton.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
+
 
     @FXML
     private void showDepositScreen() throws IOException {

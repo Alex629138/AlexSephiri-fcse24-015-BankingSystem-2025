@@ -1,15 +1,11 @@
 package com.ooadassignment.bankingsystemtest.controller;
 
+import com.ooadassignment.bankingsystemtest.model.User;
 import com.ooadassignment.bankingsystemtest.util.DBConnection;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,18 +13,24 @@ import java.sql.SQLException;
 
 public class DepositController {
 
+    User user = Session.currentUser;
+
     @FXML
     private TextField recipientIdNumber, amountToDeposit;
 
     @FXML
-    private Label successMessage, errorMessage;
+    private Label successMessage, errorMessage, availableBalance;
 
     @FXML
-    public void depositToAccount(){
+    public void depositToAccount() {
         String accountNumber = recipientIdNumber.getText();
         String depositAmount = amountToDeposit.getText();
 
-        // Validation
+        //Test
+        System.out.println(Session.currentUser.getCustomer_id());
+        System.out.println(Session.currentUser.getFirst_name());
+        System.out.println(Session.currentUser.getLast_name());
+
         if (accountNumber.isEmpty() || depositAmount.isEmpty()) {
             errorMessage.setText("Please fill in all fields.");
             return;
@@ -36,20 +38,14 @@ public class DepositController {
 
         try {
             int customerId = Integer.parseInt(accountNumber);
-            BigDecimal amount = new BigDecimal(depositAmount);
+            double amount = Double.parseDouble(depositAmount);
 
-            if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-                errorMessage.setText("Amount must be greater than zero.");
-                return;
-            }
+            String selectSql = "SELECT balance FROM savings WHERE customer_id = ?";
+            String updateSql = "UPDATE savings SET balance = balance + ? WHERE customer_id = ?";
 
-            // First, get the current balance
-            String selectSql = "SELECT available_balance FROM customers WHERE customer_id = ?";
-            String updateSql = "UPDATE customers SET available_balance = available_balance + ? WHERE customer_id = ?";
 
             try (Connection conn = DBConnection.getConnection()) {
 
-                // Check if customer exists
                 try (PreparedStatement selectStmt = conn.prepareStatement(selectSql)) {
                     selectStmt.setInt(1, customerId);
                     ResultSet rs = selectStmt.executeQuery();
@@ -60,18 +56,17 @@ public class DepositController {
                     }
                 }
 
-                // Perform the deposit (add to current balance)
                 try (PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {
-                    updateStmt.setBigDecimal(1, amount);  // The amount to add
-                    updateStmt.setInt(2, customerId);     // The customer ID
+                    updateStmt.setDouble(1, amount);
+                    updateStmt.setInt(2, customerId);
 
                     int rowsAffected = updateStmt.executeUpdate();
 
                     if (rowsAffected > 0) {
-                        successMessage.setText("Deposit successful! Amount: P" + amount);
-                        // Clear fields
+                        successMessage.setText("Deposit successful!");
                         recipientIdNumber.clear();
                         amountToDeposit.clear();
+                        availableBalance.setText(String.valueOf(getUserBalance(7) + amount));
                     } else {
                         errorMessage.setText("Deposit failed.");
                     }
@@ -86,5 +81,24 @@ public class DepositController {
             e.printStackTrace();
         }
     }
+
+    public double getUserBalance(int customerId) throws SQLException {
+        String sql = "SELECT balance FROM savings WHERE customer_id = ?";
+        double balance = 0.0;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, customerId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                balance = rs.getDouble("balance");
+            }
+        }
+
+        return balance;
+    }
+
 
 }

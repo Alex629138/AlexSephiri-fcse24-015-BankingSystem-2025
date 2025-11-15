@@ -2,28 +2,20 @@ package com.ooadassignment.bankingsystemtest.model;
 
 import java.sql.Date;
 
-public class Investment extends Account{
+public class Investment extends Account {
 
-    private int investmentAccountId;
-    private double balance, interestRate;
+    private int investment_account_id;
 
-    public Investment(){}
-
-    public Investment(int customer_id, String first_name, String last_name, String email, String phone_number, String address, String ssn, Date date_of_birth, Date registration_date, int accountId, double balance, String accountType, String branch, int investmentAccountId, double balance1, double interestRate) {
-        super(customer_id, first_name, last_name, email, phone_number, address, ssn, date_of_birth, registration_date, accountId, balance, accountType, branch);
-        this.investmentAccountId = investmentAccountId;
-        this.balance = balance1;
-        this.interestRate = interestRate;
+    public Investment(int customer_id, String first_name, String last_name, String email, String phone_number, String address, Date date_of_birth, Date registration_date, int accountId, double balance, String accountType, String branch, int investment_account_id) {
+        super(customer_id, first_name, last_name, email, phone_number, address, date_of_birth, registration_date, accountId, balance, accountType, branch);
+        this.investment_account_id = investment_account_id;
     }
 
-    @Override
-    public String toString() {
-        return "Investment{" +
-                "investmentAccountId=" + investmentAccountId +
-                ", accountId=" + getAccountId() +
-                ", customerId=" + getCustomer_id() +
-                ", balance=" + getBalance() +
-                ", accountType='" + getAccountType() + '\'' +
-                '}';
+    public int getInvestment_account_id() {
+        return investment_account_id;
+    }
+
+    public void setInvestment_account_id(int investment_account_id) {
+        this.investment_account_id = investment_account_id;
     }
 }

@@ -19,8 +19,8 @@
     <ButtonBar layoutX="125.0" layoutY="332.0" prefHeight="40.0" prefWidth="461.0">
       <buttons>
           <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="209.0" style="-fx-padding: 10px; -fx-background-color: #003366; -fx-border-radius: 20px;" text="View bank statements" textFill="WHITE" />
-          <Button mnemonicParsing="false" style="-fx-padding: 10px; -fx-background-color: #003366; -fx-border-radius: 20px;" text="Deposit" textFill="WHITE" />
-          <Button mnemonicParsing="false" style="-fx-padding: 10px; -fx-background-color: #003366; -fx-border-radius: 20px;" text="Withdraw" textFill="WHITE" />
+          <Button fx:id="depositButton" mnemonicParsing="false" onAction="#goToDeposit" style="-fx-padding: 10px; -fx-background-color: #003366; -fx-border-radius: 20px;" text="Deposit" textFill="WHITE" />
+          <Button fx:id="withdrawButton" mnemonicParsing="false" onAction="#goToWithdraw" style="-fx-padding: 10px; -fx-background-color: #003366; -fx-border-radius: 20px;" text="Withdraw" textFill="WHITE" />
       </buttons>
     </ButtonBar>
     <Text fill="WHITE" layoutX="86.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: 700;" text="Welcome to TrustBank">
@@ -45,6 +45,7 @@
         </font>
     </Text>
     <Text fill="WHITE" layoutX="40.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available balance : " />
+    <Label fx:id="savingsBalanceLabel" layoutX="153.0" layoutY="118.0" text="\$0.00" textFill="WHITE" />
     <Text layoutX="153.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" />
     <Text fill="WHITE" layoutX="40.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Investment Account">
         <font>
@@ -52,6 +53,7 @@
         </font>
     </Text>
     <Text fill="WHITE" layoutX="40.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Available balance : " />
+    <Label fx:id="investmentBalanceLabel" layoutX="153.0" layoutY="221.0" text="\$0.00" textFill="WHITE" />
     <Text fill="WHITE" layoutX="41.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Interest rate : 7%" />
     <Text fill="WHITE" layoutX="39.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Interest rate : 15%" />
     <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1e1e1e" height="200.0" layoutX="316.0" layoutY="111.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="270.0" />

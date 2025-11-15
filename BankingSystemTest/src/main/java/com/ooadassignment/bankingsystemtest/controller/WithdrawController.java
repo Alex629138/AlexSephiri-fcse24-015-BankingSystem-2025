@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 
 import java.sql.SQLException;
 
-public class DepositController {
+public class WithdrawController {
 
     @FXML
     private ComboBox<String> accountTypeComboBox;
@@ -33,7 +33,7 @@ public class DepositController {
     }
 
     @FXML
-    private void handleDeposit() {
+    private void handleWithdraw() {
         String accountType = accountTypeComboBox.getValue();
         String amountStr = amountTextField.getText();
 
@@ -45,25 +45,33 @@ public class DepositController {
         try {
             double amount = Double.parseDouble(amountStr);
             if (amount <= 0) {
-                messageLabel.setText("Deposit amount must be positive.");
+                messageLabel.setText("Withdrawal amount must be positive.");
                 return;
             }
 
             if (accountType.equals("Savings")) {
                 Savings savings = accountDAO.getSavingsAccount(loggedInUser.getCustomer_id());
                 if (savings != null) {
-                    double newBalance = savings.getBalance() + amount;
-                    accountDAO.updateAccountBalance("Savings", savings.getSavings_account_id(), newBalance);
-                    messageLabel.setText("Deposit successful!");
+                    if (savings.getBalance() >= amount) {
+                        double newBalance = savings.getBalance() - amount;
+                        accountDAO.updateAccountBalance("Savings", savings.getSavings_account_id(), newBalance);
+                        messageLabel.setText("Withdrawal successful!");
+                    } else {
+                        messageLabel.setText("Insufficient funds.");
+                    }
                 } else {
                     messageLabel.setText("Savings account not found.");
                 }
             } else if (accountType.equals("Investment")) {
                 Investment investment = accountDAO.getInvestmentAccount(loggedInUser.getCustomer_id());
                 if (investment != null) {
-                    double newBalance = investment.getBalance() + amount;
-                    accountDAO.updateAccountBalance("Investment", investment.getInvestment_account_id(), newBalance);
-                    messageLabel.setText("Deposit successful!");
+                    if (investment.getBalance() >= amount) {
+                        double newBalance = investment.getBalance() - amount;
+                        accountDAO.updateAccountBalance("Investment", investment.getInvestment_account_id(), newBalance);
+                        messageLabel.setText("Withdrawal successful!");
+                    } else {
+                        messageLabel.setText("Insufficient funds.");
+                    }
                 } else {
                     messageLabel.setText("Investment account not found.");
                 }

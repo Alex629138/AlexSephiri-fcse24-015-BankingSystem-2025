@@ -1,11 +1,14 @@
 package com.ooadassignment.bankingsystemtest.dao;
 
 import com.ooadassignment.bankingsystemtest.model.Account;
+import com.ooadassignment.bankingsystemtest.model.Investment;
+import com.ooadassignment.bankingsystemtest.model.Savings;
 import com.ooadassignment.bankingsystemtest.model.User;
 import com.ooadassignment.bankingsystemtest.util.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -44,12 +47,53 @@ public class AccountDAO {
         return account.getFirst_name() + " " + account.getLast_name();
     }
 
-    public Account getAccountById(int accountId) throws SQLException {
-        return null;  
+    public Savings getSavingsAccount(int customerId) throws SQLException {
+        String sql = "SELECT * FROM savings WHERE customer_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Savings(customerId, null, null, null, null, null, null, null, rs.getInt("savings_account_id"), rs.getDouble("balance"), "Savings", null, rs.getInt("savings_account_id"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error fetching savings account: " + e.getMessage());
+        }
+        return null;
     }
 
-    public void updateAccountBalance(int accountId, double newBalance) throws SQLException {
-        
+    public Investment getInvestmentAccount(int customerId) throws SQLException {
+        String sql = "SELECT * FROM investments WHERE customer_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Investment(customerId, null, null, null, null, null, null, null, rs.getInt("investment_account_id"), rs.getDouble("balance"), "Investment", null, rs.getInt("investment_account_id"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error fetching investment account: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public void updateAccountBalance(String accountType, int accountId, double newBalance) throws SQLException {
+        String table = accountType.equalsIgnoreCase("Savings") ? "savings" : "investment";
+        String accountIdColumn = accountType.equalsIgnoreCase("Savings") ? "savings_account_id" : "investment_account_id";
+        String sql = "UPDATE " + table + " SET balance = ? WHERE " + accountIdColumn + " = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, newBalance);
+            stmt.setInt(2, accountId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error updating account balance: " + e.getMessage());
+        }
     }
 
 

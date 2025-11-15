@@ -3,15 +3,15 @@ package com.ooadassignment.bankingsystemtest.model;
 import java.sql.Date;
 
 public class Account extends User{
-    private int accountId;
-    private double balance, interestRate;
+    protected int accountId;
+    protected double balance, interestRate;
     private boolean isActive;
     private String accountType, branch, accountHolder;
     private Date registrationDate;
 
     public Account(){}
 
-    public Account(int customer_id, String first_name, String last_name, String email, String phone_number, String address, String ssn, Date date_of_birth, Date registration_date, int accountId, double balance, String accountType, String branch) {
+    public Account(int customer_id, String first_name, String last_name, String email, String phone_number, String address, Date date_of_birth, Date registration_date, int accountId, double balance, String accountType, String branch) {
         super(customer_id, first_name, last_name, email, phone_number, address, date_of_birth, registration_date);
         this.accountId = accountId;
         this.balance = balance;

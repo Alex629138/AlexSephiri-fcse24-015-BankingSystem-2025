@@ -8,6 +8,8 @@ module com.ooadassignment.bankingsystemtest {
 
     opens com.ooadassignment.bankingsystemtest to javafx.fxml;
     opens com.ooadassignment.bankingsystemtest.controller to javafx.fxml;
+    opens com.ooadassignment.bankingsystemtest.session to javafx.fxml;
+    opens com.ooadassignment.bankingsystemtest.model to javafx.fxml;
     exports com.ooadassignment.bankingsystemtest;
     exports com.ooadassignment.bankingsystemtest.controller;
     exports com.ooadassignment.bankingsystemtest.model;

@@ -82,7 +82,7 @@ public class AccountDAO {
     }
 
     public void updateAccountBalance(String accountType, int accountId, double newBalance) throws SQLException {
-        String table = accountType.equalsIgnoreCase("Savings") ? "savings" : "investment";
+        String table = accountType.equalsIgnoreCase("Savings") ? "savings" : "investments";
         String accountIdColumn = accountType.equalsIgnoreCase("Savings") ? "savings_account_id" : "investment_account_id";
         String sql = "UPDATE " + table + " SET balance = ? WHERE " + accountIdColumn + " = ?";
         try (Connection conn = DBConnection.getConnection();

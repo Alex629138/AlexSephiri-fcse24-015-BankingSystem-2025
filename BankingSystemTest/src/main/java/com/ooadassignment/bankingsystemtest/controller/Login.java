@@ -31,10 +31,21 @@ public class Login {
     protected void logIn() {
 
         String userId = idNumberField.getText();
-        int idNumber = Integer.parseInt(userId);
+        if (userId.isEmpty()) {
+            messageLabel.setText("Account number and password are required.");
+            return;
+        }
+
+        int idNumber;
+        try {
+            idNumber = Integer.parseInt(userId);
+        } catch (NumberFormatException e) {
+            messageLabel.setText("Account number must be numeric.");
+            return;
+        }
         String password = passwordField.getText();
 
-        if (userId.isEmpty() || password.isEmpty()) {
+        if (password.isEmpty()) {
             messageLabel.setText("Account number and password are required.");
         }else{
             String sql = "SELECT * FROM customers WHERE customer_id = ?";
@@ -61,7 +72,11 @@ public class Login {
                             user = new User(customerId, firstName, lastName, email, phoneNumber, address, dateOfBrith, registrationDate);
                             UserSession.getInstance().setLoggedInUser(user);
 
-                            switchToHomeScreen();
+                            if (customerId == 1) {
+                                switchToAdminScreen();
+                            } else {
+                                switchToHomeScreen();
+                            }
 
                         } else {
                             messageLabel.setText("Invalid credentials.");
@@ -83,6 +98,15 @@ public class Login {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ooadassignment/bankingsystemtest/view/home.fxml"));
         Scene scene = new Scene(loader.load(), 600, 400);
 
+
+        Stage stage = (Stage) loginButton.getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private void switchToAdminScreen() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ooadassignment/bankingsystemtest/view/admin.fxml"));
+        Scene scene = new Scene(loader.load(), 600, 620);
 
         Stage stage = (Stage) loginButton.getScene().getWindow();
         stage.setScene(scene);

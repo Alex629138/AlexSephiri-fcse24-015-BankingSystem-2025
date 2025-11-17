@@ -27,6 +27,8 @@ public class Login {
     @FXML
     private Label messageLabel;
 
+    public Login() {}
+
     @FXML
     protected void logIn() {
 

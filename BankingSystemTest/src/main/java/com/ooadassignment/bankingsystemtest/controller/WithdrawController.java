@@ -25,6 +25,8 @@ public class WithdrawController {
     private User loggedInUser;
     private AccountDAO accountDAO;
 
+    public WithdrawController() {}
+
     @FXML
     public void initialize() {
         loggedInUser = UserSession.getInstance().getLoggedInUser();

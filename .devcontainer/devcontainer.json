@@ -1,17 +1,35 @@
 {
-  "name": "JavaFX Codespaces",
+  "name": "Trust Bank",
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "forwardPorts": [5901],
-  "remoteUser": "vscode",
+  
+  "containerEnv": {
+    "DISPLAY": ":1"
+  },
+  
+  "postStartCommand": "bash .devcontainer/start-vnc.sh",
+  
+  "forwardPorts": [6080, 5901],
+  
+  "portsAttributes": {
+    "6080": {
+      "label": "noVNC",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  
   "customizations": {
     "vscode": {
       "extensions": [
         "vscjava.vscode-java-pack",
-        "redhat.java"
-      ]
+        "vscjava.vscode-maven"
+      ],
+      "settings": {
+        "terminal.integrated.env.linux": {
+          "DISPLAY": ":1"
+        }
+      }
     }
-  },
-  "postCreateCommand": "vncserver :1 -geometry 1280x800 -depth 24"
+  }
 }

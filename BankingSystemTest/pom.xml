@@ -73,7 +73,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.ooadassignment.bankingsystemtest/com.ooadassignment.bankingsystemtest.HelloApplication
+                                com.ooadassignment.bankingsystemtest/com.ooadassignment.bankingsystemtest.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

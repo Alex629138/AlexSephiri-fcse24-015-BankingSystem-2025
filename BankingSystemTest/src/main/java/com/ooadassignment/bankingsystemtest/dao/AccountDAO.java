@@ -14,6 +14,8 @@ import java.util.List;
 
 public class AccountDAO {
 
+    protected static final double MINIMUM_INVESTMENT_DEPOSIT = 500.0;
+
     public void createAccount(Account account) throws SQLException {
         String sql = "INSERT INTO account (accountId, customer_id, accountType, accountHolder, balance, interestRate, isActive, registrationDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -94,6 +96,66 @@ public class AccountDAO {
             e.printStackTrace();
             throw new SQLException("Error updating account balance: " + e.getMessage());
         }
+    }
+
+    public boolean hasSavingsAccount(int customerId) throws SQLException {
+        return getSavingsAccount(customerId) != null;
+    }
+
+    public boolean hasInvestmentAccount(int customerId) throws SQLException {
+        return getInvestmentAccount(customerId) != null;
+    }
+
+    public Savings openSavingsAccount(int customerId, double initialDeposit) throws SQLException {
+        if (initialDeposit < 0) {
+            throw new SQLException("Initial deposit cannot be negative.");
+        }
+        if (hasSavingsAccount(customerId)) {
+            throw new SQLException("Customer already has a savings account.");
+        }
+
+        String sql = "INSERT INTO savings (customer_id, balance) VALUES (?, ?) RETURNING savings_account_id";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);
+            stmt.setDouble(2, initialDeposit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.next()) {
+                    throw new SQLException("Failed to create savings account");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error creating savings account: " + e.getMessage());
+        }
+
+        return getSavingsAccount(customerId);
+    }
+
+    public Investment openInvestmentAccount(int customerId, double initialDeposit) throws SQLException {
+        if (initialDeposit < MINIMUM_INVESTMENT_DEPOSIT) {
+            throw new SQLException("Investment accounts require a minimum deposit of $" + MINIMUM_INVESTMENT_DEPOSIT);
+        }
+        if (hasInvestmentAccount(customerId)) {
+            throw new SQLException("Customer already has an investment account.");
+        }
+
+        String sql = "INSERT INTO investments (customer_id, balance) VALUES (?, ?) RETURNING investment_account_id";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, customerId);
+            stmt.setDouble(2, initialDeposit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.next()) {
+                    throw new SQLException("Failed to create investment account");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Error creating investment account: " + e.getMessage());
+        }
+
+        return getInvestmentAccount(customerId);
     }
 
 

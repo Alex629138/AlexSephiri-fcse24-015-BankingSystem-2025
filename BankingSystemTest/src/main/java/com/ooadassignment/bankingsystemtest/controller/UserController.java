@@ -28,6 +28,8 @@ public class UserController {
 
     private ObservableList<User> customersList = FXCollections.observableArrayList();
 
+    public UserController(){}
+
     @FXML
     public void initialize() {
         setupTable();

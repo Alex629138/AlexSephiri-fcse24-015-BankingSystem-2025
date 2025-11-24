@@ -1,17 +1,41 @@
 {
-  "name": "JavaFX Codespaces",
-  "build": {
-    "dockerfile": "Dockerfile"
+  "name": "Java with JavaFX + GUI Desktop",
+  "image": "mcr.microsoft.com/devcontainers/java:1-21-bookworm",
+
+  "features": {
+    // GUI Desktop (XFCE + VNC + noVNC)
+    "ghcr.io/devcontainers/features/desktop-lite:1": {
+      "installVNC": true,
+      "installNoVNC": true
+    },
+
+    // Java tools
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "none",
+      "installMaven": "true",
+      "installGradle": "false"
+    },
+
+    // SQLite database support
   },
-  "forwardPorts": [5901],
-  "remoteUser": "vscode",
+
+  // Ports for GUI desktop
+  "forwardPorts": [6080, 5901],
+
+  // JavaFX GUI dependencies
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y libgtk-3-dev libxtst6 libxrender1 libfontconfig1 libxi6 libgl1-mesa-glx && java -version",
+
   "customizations": {
     "vscode": {
+      "settings": {
+        "java.configuration.updateBuildConfiguration": "automatic"
+      },
       "extensions": [
         "vscjava.vscode-java-pack",
-        "redhat.java"
+        "openjfx.javafx-pack"
       ]
     }
   },
-  "postCreateCommand": "vncserver :1 -geometry 1280x800 -depth 24"
+
+  "remoteUser": "vscode"
 }

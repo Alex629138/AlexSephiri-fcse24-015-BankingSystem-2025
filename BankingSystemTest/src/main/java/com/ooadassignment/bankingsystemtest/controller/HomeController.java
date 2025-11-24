@@ -28,7 +28,6 @@ public class HomeController {
         this.accountDAO = new AccountDAO();
     }
 
-
     @FXML
     public void initialize() {
         this.user = UserSession.getInstance().getLoggedInUser();
@@ -83,7 +82,6 @@ public class HomeController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/ooadassignment/bankingsystemtest/view/profile.fxml"));
         Scene scene = new Scene(loader.load(), 600, 400);
 
-        // The ProfileController will get the user from the session
         ProfileController profileController = loader.getController();
 
         Stage stage = (Stage) profileButton.getScene().getWindow();

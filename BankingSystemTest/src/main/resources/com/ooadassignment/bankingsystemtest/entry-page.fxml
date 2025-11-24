@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ooadassignment.bankingsystemtest.controller.AdminController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ooadassignment.bankingsystemtest.controller.EntryController">
    <children>
       <Text fill="WHITE" layoutX="162.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Trust Bank Pty Ltd.">
          <font>
@@ -17,15 +17,15 @@
       </Text>
       <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="225.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../resources/com/ooadassignment/bankingsystemtest/TrustBankLogo.png" />
+            <Image url="@TrustBankLogo.png" />
          </image>
       </ImageView>
-      <Button layoutX="218.0" layoutY="241.0" mnemonicParsing="false" style="-fx-background-color: #036;" text="Login as a customer" textFill="WHITE">
+      <Button layoutX="218.0" layoutY="241.0" mnemonicParsing="false" style="-fx-background-color: #036;" text="Login as a customer" textFill="WHITE" fx:id="customerButton" onAction="goToCustomerLogin">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button layoutX="203.0" layoutY="297.0" mnemonicParsing="false" style="-fx-background-color: #036;" text="Login as an organization" textFill="WHITE">
+      <Button layoutX="203.0" layoutY="297.0" mnemonicParsing="false" style="-fx-background-color: #036;" text="Login as an organization" textFill="WHITE" fx:id="organizationButton" onAction="goToOrganizationLogin">
          <font>
             <Font size="16.0" />
          </font>

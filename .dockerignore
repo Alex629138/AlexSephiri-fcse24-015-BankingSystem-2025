@@ -1,0 +1,28 @@
+# Ignore version control
+.git
+
+# Ignore Maven/Gradle build output
+target/
+build/
+
+# Ignore node/npm/pnpm artifacts, just in case
+node_modules/
+
+# Ignore local devcontainer files not needed in container
+.devcontainer/
+!.devcontainer/Dockerfile
+!.devcontainer/run-gui-app.sh
+!.devcontainer/run-gui.sh
+!.devcontainer/start-xvfb.sh
+!.devcontainer/devcontainer.json
+
+# Ignore OS junk
+*.swp
+*.log
+.DS_Store
+Thumbs.db
+
+# Ignore IDE/project files
+*.iml
+.idea/
+.vscode/

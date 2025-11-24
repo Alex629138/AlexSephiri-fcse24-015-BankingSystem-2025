@@ -1,25 +1,17 @@
-FROM mcr.microsoft.com/devcontainers/java:21
-
+FROM mcr.microsoft.com/devcontainers/java:1-21-bookworm
 
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    maven\
-    openjfx\
-    xfce4 \
-    xfce4-goodies \
-    tigervnc-standalone-server \
-    tigervnc-common \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    maven \
+    openjfx \
+    xvfb \
+    x11vnc \
     novnc \
     websockify \
     dbus-x11 \
-    && apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    fluxbox \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN mkdir -p /root/.vnc && \
-    echo "password" | vncpasswd -f > /root/.vnc/passwd && \
-    chmod 600 /root/.vnc/passwd
-
-RUN echo '#!/bin/bash\nunset SESSION_MANAGER\nunset DBUS_SESSION_BUS_ADDRESS\nexec startxfce4' > /root/.vnc/xstartup && \
-    chmod +x /root/.vnc/xstartup
-
+WORKDIR /workspace
 EXPOSE 5901 6080
+CMD ["/bin/bash", "-c", "run-gui-app"]

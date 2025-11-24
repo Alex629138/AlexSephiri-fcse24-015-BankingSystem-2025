@@ -25,7 +25,9 @@ public class WithdrawController {
     private User loggedInUser;
     private AccountDAO accountDAO;
 
-    public WithdrawController(){}
+
+    public WithdrawController() {}
+
 
     @FXML
     public void initialize() {

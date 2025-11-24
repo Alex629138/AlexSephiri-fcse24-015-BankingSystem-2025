@@ -30,6 +30,7 @@ public class UserController {
 
     public UserController(){}
 
+
     @FXML
     public void initialize() {
         setupTable();

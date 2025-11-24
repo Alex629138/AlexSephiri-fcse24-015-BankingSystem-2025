@@ -23,6 +23,7 @@ public class ProfileController {
 
     public ProfileController(){}
 
+
     public void initialize() {
         user = UserSession.getInstance().getLoggedInUser();
         if (user != null) {

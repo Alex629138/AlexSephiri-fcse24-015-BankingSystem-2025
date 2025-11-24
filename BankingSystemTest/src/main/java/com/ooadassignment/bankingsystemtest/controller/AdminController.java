@@ -41,6 +41,8 @@ public class AdminController implements Initializable {
 
     private final ObservableList<User> customers = FXCollections.observableArrayList();
 
+    public AdminController() {}
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setupTable();

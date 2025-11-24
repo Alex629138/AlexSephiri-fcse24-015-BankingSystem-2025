@@ -25,6 +25,8 @@ public class DepositController {
     private User loggedInUser;
     private AccountDAO accountDAO;
 
+    public DepositController() {}
+
     @FXML
     public void initialize() {
         loggedInUser = UserSession.getInstance().getLoggedInUser();

@@ -32,6 +32,7 @@ public class SavingsController {
             stmt.setInt(1, customerId);
             stmt.setFloat(2, 0.0F);
             stmt.setFloat(3, 7.0F);
+            stmt.executeUpdate();
         }
     }
 

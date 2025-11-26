@@ -32,10 +32,13 @@ public class HomeController {
     private User user;
     private AccountDAO accountDAO;
     private SavingsController savingsController;
+    private InvestementController investementController;
 
 
     public HomeController(){
         this.accountDAO = new AccountDAO();
+        this.savingsController = new SavingsController();
+        this.investementController = new InvestementController();
     }
 
     @FXML
@@ -73,12 +76,14 @@ public class HomeController {
 
                     try{
 
-                       savingsController.createSavingsAccount(user.getCustomer_id());
+                        savingsController.createSavingsAccount(user.getCustomer_id());
 
                         Alert savingsAlert = new Alert(Alert.AlertType.CONFIRMATION);
 
                         savingsAlert.setTitle("Savings Account Creation");
                         savingsAlert.setHeaderText("Savings account successfully created");
+                        savingsAlert.showAndWait();
+                        loadAccountData();
 
                     } catch(SQLException e){
                         e.printStackTrace();
@@ -91,8 +96,39 @@ public class HomeController {
                 }
             }
             Investment investment = accountDAO.getInvestmentAccount(user.getCustomer_id());
+
             if (investment != null) {
                 investmentBalanceLabel.setText(String.format("$%.2f", investment.getBalance()));
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("No investment account available!");
+                alert.setHeaderText("Do you want to create one now?");
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    System.out.println("Investment Account creation clicked!");
+
+                    try{
+
+                        investementController.createInvestmentAccount(user.getCustomer_id());
+
+                        Alert investmentAlert = new Alert(Alert.AlertType.CONFIRMATION);
+
+                        investmentAlert.setTitle("Investment Account Creation");
+                        investmentAlert.setHeaderText("Investment account successfully created");
+                        investmentAlert.showAndWait();
+                        loadAccountData();
+
+                    } catch(SQLException e){
+                        e.printStackTrace();
+                    }
+
+                } else {
+
+                    System.out.println("Investment account created not clicked!.");
+
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

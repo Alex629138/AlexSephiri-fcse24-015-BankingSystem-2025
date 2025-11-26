@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ooadassignment.bankingsystemtest.controller.AdminController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #1e1e1e; -fx-padding: 0 0 20px 0;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ooadassignment.bankingsystemtest.controller.AdminController">
     <children>
         <Line endX="406.0" endY="-3.814697265625E-6" layoutX="194.0" layoutY="50.0" startX="-106.99999237060547" startY="-3.814697265625E-6" stroke="WHITE" />
         <ImageView fitHeight="91.0" fitWidth="72.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -25,7 +25,7 @@
                 <Image url="@../../../../../resources/com/ooadassignment/bankingsystemtest/TrustBankLogo.png" />
             </image>
         </ImageView>
-        <ButtonBar layoutX="125.0" layoutY="343.0" prefHeight="40.0" prefWidth="461.0">
+        <ButtonBar layoutX="125.0" layoutY="442.0" prefHeight="40.0" prefWidth="461.0">
             <buttons>
                 <Button fx:id="createCustomer" mnemonicParsing="false" onAction="#handleCreateCustomer" prefHeight="25.0" prefWidth="209.0" style="-fx-padding: 10px; -fx-background-color: #028a0f; -fx-border-radius: 20px;" text="Create new customer" textFill="WHITE" />
                 <Button fx:id="updateCustomer" mnemonicParsing="false" onAction="#handleUpdateCustomer" style="-fx-padding: 10px; -fx-background-color: #003366; -fx-border-radius: 20px;" text="Update customer" textFill="WHITE" />
@@ -42,7 +42,7 @@
                 <Button mnemonicParsing="false" style="-fx-background-color: #003366;" text="Profile" textFill="WHITE" />
             </buttons>
         </ButtonBar>
-        <TableView fx:id="customersTableView" layoutX="96.0" layoutY="61.0" prefHeight="117.0" prefWidth="469.0">
+        <TableView fx:id="customersTableView" layoutX="20.0" layoutY="107.0" prefHeight="196.0" prefWidth="571.0">
             <columns>
                 <TableColumn fx:id="colId" prefWidth="60" text="ID" />
                 <TableColumn fx:id="colFirstName" prefWidth="80" text="First Name" />
@@ -54,7 +54,7 @@
                 <TableColumn fx:id="colRegistration" prefWidth="100" text="Registration" />
             </columns>
         </TableView>
-        <GridPane hgap="40.0" layoutX="20.0" layoutY="189.0" prefHeight="139.0" prefWidth="514.0" vgap="5.0">
+        <GridPane hgap="40.0" layoutX="20.0" layoutY="310.0" prefHeight="117.0" prefWidth="514.0" vgap="5.0">
             <children>
                 <Label text="Customer ID : " textFill="WHITE" GridPane.columnIndex="0" GridPane.rowIndex="0" />
                 <TextField fx:id="txtCustomerId" editable="false" promptText="Auto" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -97,5 +97,6 @@
             <RowConstraints />
          </rowConstraints>
         </GridPane>
+      <Button fx:id="clearFormButton" layoutX="24.0" layoutY="449.0" mnemonicParsing="false" onAction="#clearForm" style="-fx-background-color: #036;" text="Clear form" textFill="WHITE" />
     </children>
 </AnchorPane>

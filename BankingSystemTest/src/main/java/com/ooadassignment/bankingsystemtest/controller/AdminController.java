@@ -30,6 +30,8 @@ public class AdminController implements Initializable {
     @FXML private TableColumn<User, Date> colDob;
     @FXML private TableColumn<User, Date> colRegistration;
 
+    @FXML private Button clearFormButton;
+
     @FXML private TextField txtCustomerId;
     @FXML private TextField txtFirstName;
     @FXML private TextField txtLastName;
@@ -101,6 +103,7 @@ public class AdminController implements Initializable {
         registrationPicker.setValue(user.getRegistration_date() != null ? user.getRegistration_date().toLocalDate() : null);
     }
 
+    @FXML
     private void clearForm() {
         txtCustomerId.clear();
         txtFirstName.clear();
